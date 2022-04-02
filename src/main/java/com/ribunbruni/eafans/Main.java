@@ -28,23 +28,20 @@ public class Main {
 
         // Authenticate via OAuth
         JumblrClient client = new JumblrClient(
-                "wB75PUUKc7yDzTDUgPdeWWZldOdtsEAiVwVp2BrFN2rL76ltOq",
-                "FwPSGbSaF2fQnUpWcnh1XGhPCzrFUtSs2f7CDAxpYG37fXKIRw"
+                System.getenv("CONSUMER_KEY"),
+                System.getenv("CONSUMER_SECRET")
         );
         client.setToken(
-                "WPHdk7dNbA6aIZGok3V0p9wUXlDsBKO8NhR3IELDbonRTCPnQj",
-                "WrekfpBbCltEQCfMVkPdP4HcuvM7FURgc8Sx6nCVPf9TQ23DO8"
+                System.getenv("TOKEN"),
+                System.getenv("TOKEN_SECRET")
         );
 
-        // Write the user's name
-        User user = client.user();
-        System.out.println(user.getName());
+//        String blogName = "elsanna-art-archive";
+        String blogName = "elsanna-art-archive-explicit";
+        String blogUrl = blogName + ".tumblr.com";
+        Blog artArchiveBlog = client.blogInfo(blogUrl);
 
-        Blog artArchiveBlog = client.blogInfo("elsanna-art-archive.tumblr.com");
-
-        List<Post> totalPosts = new ArrayList<>();
-
-
+        final List<Post> totalPosts = new ArrayList<>();
         final Map<String, Integer> options = new HashMap<>();
         options.put("limit", 50);
 
@@ -76,7 +73,7 @@ public class Main {
                     }
                 })
                 .create();
-        FileWriter fileWriter = new FileWriter("posts.json");
+        FileWriter fileWriter = new FileWriter(blogName + ".json");
         gson.toJson(totalPosts, fileWriter);
         fileWriter.flush();
         fileWriter.close();
