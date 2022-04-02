@@ -31,7 +31,7 @@ public class PhotoDownloader {
         List<PhotoPost> postList = gson.fromJson(new FileReader(BLOG_NAME + ".json"), postListType);
 
         // Directory for downloading photos
-        File photosDir = new File("photos");
+        File photosDir = new File(BLOG_NAME + "-photos");
 
         int counter = 0;
         // Loop through all posts

@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class PostsArchiver {
     // Edit me to whatever blog you want
-    final static String BLOG_NAME = "elsanna-art-archive-explicit";
+    final static String BLOG_NAME = "elsanna-art-archive";
 
     // No need to edit anything below!
     final static String BLOG_URL = BLOG_NAME + ".tumblr.com";
