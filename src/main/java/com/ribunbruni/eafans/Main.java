@@ -1,11 +1,16 @@
 package com.ribunbruni.eafans;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
-import com.ribunbruni.eafans.objects.EAPost;
+import com.google.gson.GsonBuilder;
 import com.tumblr.jumblr.JumblrClient;
-import com.tumblr.jumblr.types.*;
+import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.User;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +62,20 @@ public class Main {
             offset += postsTemp.size(); // Should be 50
         } while (!postsTemp.isEmpty());
 
-        final Gson gson = new Gson();
+        final Gson gson = new GsonBuilder()
+                .addSerializationExclusionStrategy(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        // Skip "liked" field
+                        return f.getName().equals("liked");
+                    }
+
+                    @Override
+                    public boolean shouldSkipClass(Class<?> clazz) {
+                        return false;
+                    }
+                })
+                .create();
         FileWriter fileWriter = new FileWriter("posts.json");
         gson.toJson(totalPosts, fileWriter);
         fileWriter.flush();
